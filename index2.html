@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MikuMi · дизайнерская одежда и украшения</title>
+<meta name="description" content="MikuMi — странный, но прекрасный магазин дизайнерской одежды и украшений. Одежда, аксессуары, украшения на заказ.">
+<meta property="og:title" content="MikuMi · дизайнерская одежда и украшения">
+<meta property="og:description" content="Странный, но прекрасный магазин дизайнерской одежды и украшений.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630'%3E%3Crect width='1200' height='630' fill='%23f9d5d3'/%3E%3Ctext x='50%25' y='50%25' font-family='Georgia' font-size='140' fill='%233a2a2a' text-anchor='middle' dominant-baseline='middle'%3EMikuMi%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;700&family=Unbounded:wght@400;600;800;900&display=swap');
+
+:root{
+  --font-display:'Unbounded','Comfortaa',system-ui,sans-serif;
+  --font-body:'Comfortaa',system-ui,sans-serif;
+  --bg:#fdf6f4;--bg2:#fff9f0;--surface:#fff;--surface2:#fceee6;
+  --primary:#f7c8d0;--primary-deep:#e58a9b;--accent:#f2e2a8;--accent-deep:#d9c07a;
+  --text:#3a2a2a;--text-soft:#6e5a5a;--border:rgba(58,42,42,.12);
+  --focus:#c45d75;--shadow:rgba(58,42,42,.14);--on-primary:#3a2a2a;
+  --grad-a:linear-gradient(135deg,#f7c8d0,#f2e2a8);
+  --grad-b:linear-gradient(135deg,#fceee6,#f7c8d0);
+  --grad-c:linear-gradient(160deg,#f2e2a8,#fff);
+  --r-sm:12px;--r-md:20px;--r-lg:32px;--r-xl:48px;
+  --t:.35s cubic-bezier(.22,1,.36,1);
+  --sh-soft:0 12px 40px -12px var(--shadow);
+  --sh-lift:0 22px 60px -18px var(--shadow);
+}
+[data-theme="2"]{
+  --bg:#0e1526;--bg2:#131c30;--surface:#1a2540;--surface2:#222f52;
+  --primary:#a8233a;--primary-deep:#7c182c;--accent:#e9e4d8;--accent-deep:#b9b2a0;
+  --text:#f1ecdf;--text-soft:#b9b9c9;--border:rgba(241,236,223,.14);
+  --focus:#f2a0b0;--shadow:rgba(0,0,0,.5);--on-primary:#fff;
+  --grad-a:linear-gradient(135deg,#a8233a,#1a2540);
+  --grad-b:linear-gradient(135deg,#222f52,#a8233a);
+  --grad-c:linear-gradient(160deg,#1a2540,#e9e4d8);
+}
+[data-theme="3"]{
+  --bg:#f3e9dd;--bg2:#f8f0e6;--surface:#fbf5ec;--surface2:#efe0cf;
+  --primary:#4a3025;--primary-deep:#33201a;--accent:#f2c6ce;--accent-deep:#d99aa6;
+  --text:#33201a;--text-soft:#6b5448;--border:rgba(51,32,26,.16);
+  --focus:#b04a63;--shadow:rgba(51,32,26,.2);--on-primary:#fbf5ec;
+  --grad-a:linear-gradient(135deg,#f2c6ce,#efe0cf);
+  --grad-b:linear-gradient(135deg,#4a3025,#d99aa6);
+  --grad-c:linear-gradient(160deg,#efe0cf,#f2c6ce);
+}
+[data-theme="4"]{
+  --bg:#eef0e4;--bg2:#f2f3ea;--surface:#f8f9f1;--surface2:#e3e8d3;
+  --primary:#6e7f5c;--primary-deep:#52614a;--accent:#d98e52;--accent-deep:#b8723c;
+  --text:#2f3527;--text-soft:#5c6350;--border:rgba(47,53,39,.16);
+  --focus:#a05a2c;--shadow:rgba(47,53,39,.2);--on-primary:#f8f9f1;
+  --grad-a:linear-gradient(135deg,#c7d3b2,#d98e52);
+  --grad-b:linear-gradient(135deg,#6e7f5c,#e3e8d3);
+  --grad-c:linear-gradient(160deg,#d98e52,#eef0e4);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);background:var(--bg);color:var(--text);
+  font-size:clamp(.9rem,.85rem + .3vw,1.05rem);line-height:1.6;
+  transition:background var(--t),color var(--t);min-height:100vh;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.container{width:100%;max-width:1180px;margin:0 auto;padding-inline:clamp(1rem,3vw,2.5rem)}
+
+/* ===== ФОНОВЫЕ УЗОРЫ ===== */
+.bg-patterns{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;transition:opacity var(--t)}
+.bg-patterns svg{position:absolute;transition:transform 1.2s cubic-bezier(.22,1,.36,1),opacity 1.2s ease;opacity:.55}
+.bg-patterns .p1{top:-10vh;left:-10vw;width:60vw;height:60vw;color:var(--primary)}
+.bg-patterns .p2{top:30vh;right:-15vw;width:55vw;height:55vw;color:var(--accent)}
+.bg-patterns .p3{bottom:-20vh;left:20vw;width:50vw;height:50vw;color:var(--primary-deep)}
+.bg-patterns .p4{top:70vh;left:-10vw;width:40vw;height:40vw;color:var(--accent-deep)}
+.bg-noise{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+[data-theme="2"] .bg-noise{opacity:.08}
+
+/* ===== HERO ===== */
+.site-header{position:relative;padding-block:clamp(2rem,6vw,4rem) clamp(2.5rem,7vw,5rem);overflow:hidden;border-bottom-left-radius:var(--r-xl);border-bottom-right-radius:var(--r-xl)}
+.site-header::before,.site-header::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);opacity:.45;pointer-events:none;z-index:-1}
+.site-header::before{width:40vw;height:40vw;background:var(--accent);top:-15vw;right:-10vw;animation:float 14s ease-in-out infinite}
+.site-header::after{width:28vw;height:28vw;background:var(--primary);bottom:-10vw;left:-6vw;animation:float 18s ease-in-out infinite reverse}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(3vw,2vw) scale(1.12)}}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;position:relative;z-index:2;flex-wrap:wrap}
+.brand-mark{font-family:var(--font-display);font-weight:900;font-size:clamp(1.1rem,1rem + .6vw,1.5rem);letter-spacing:.02em;display:inline-flex;align-items:center;gap:.5rem}
+.brand-mark .dot,.sidebar-brand .dot{width:.7em;height:.7em;border-radius:50% 40% 60% 45%;background:var(--primary-deep);display:inline-block;animation:morph 8s ease-in-out infinite}
+@keyframes morph{0%,100%{border-radius:50% 40% 60% 45%;transform:rotate(0)}50%{border-radius:40% 60% 45% 55%;transform:rotate(180deg)}}
+
+.hero{position:relative;z-index:2;padding-top:clamp(2rem,6vw,4rem);text-align:center}
+.hero-title{
+  font-family:var(--font-display);font-weight:900;
+  font-size:clamp(3.4rem,2rem + 12vw,9rem);line-height:.9;letter-spacing:-.04em;
+  background:linear-gradient(120deg,var(--text) 20%,var(--primary-deep) 50%,var(--accent-deep) 80%,var(--text) 100%);
+  background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:titleIn 1.2s cubic-bezier(.22,1,.36,1) both,shimmer 6s ease-in-out infinite;
+  filter:drop-shadow(0 6px 24px var(--shadow));
+}
+@keyframes titleIn{from{opacity:0;transform:translateY(30px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes shimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero-slogan{margin-top:clamp(.6rem,2vw,1.2rem);font-size:clamp(.95rem,.85rem + .6vw,1.35rem);color:var(--text-soft);max-width:34ch;margin-inline:auto}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+  padding:clamp(.75rem,2vw,1rem) clamp(1.6rem,4vw,2.6rem);
+  border-radius:var(--r-xl);font-family:var(--font-display);font-weight:600;
+  font-size:clamp(.85rem,.8rem + .25vw,1rem);letter-spacing:.02em;
+  background:var(--primary);color:var(--on-primary);box-shadow:var(--sh-soft);
+  transition:transform var(--t),box-shadow var(--t),background var(--t);
+  border:2px solid transparent;position:relative;overflow:hidden;
+}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-120%);transition:transform .7s ease}
+.btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:var(--sh-lift)}
+.btn:hover::after{transform:translateX(120%)}
+.btn:active{transform:translateY(0) scale(.99)}
+.btn-ghost{background:transparent;color:var(--text);border:2px solid var(--border);box-shadow:none}
+.btn-ghost:hover{border-color:var(--primary-deep);background:var(--surface)}
+.hero-cta{margin-top:clamp(1.6rem,4vw,2.6rem)}
+
+.theme-switcher{
+  position:relative;z-index:2;margin-top:clamp(1.8rem,5vw,3rem);
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.7rem;
+  padding:clamp(.6rem,2vw,1rem);
+  background:color-mix(in srgb,var(--surface) 65%,transparent);
+  backdrop-filter:blur(12px);border:1px solid var(--border);
+  border-radius:var(--r-xl);box-shadow:var(--sh-soft);
+  max-width:640px;margin-inline:auto;
+}
+.theme-label{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-soft);width:100%;text-align:center}
+.theme-dot{
+  width:clamp(2.4rem,6vw,3rem);height:clamp(2.4rem,6vw,3rem);
+  border-radius:50%;border:3px solid transparent;position:relative;
+  transition:transform var(--t),border-color var(--t);
+  box-shadow:0 4px 14px -4px var(--shadow);flex-shrink:0;
+}
+.theme-dot:hover{transform:scale(1.12) rotate(-8deg)}
+.theme-dot[aria-pressed="true"]{border-color:var(--text);transform:scale(1.08)}
+.theme-dot[aria-pressed="true"]::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:var(--text);font-weight:800;font-size:1rem;text-shadow:0 0 6px rgba(255,255,255,.6)}
+.theme-dot[data-theme-btn="1"]{background:linear-gradient(135deg,#f7c8d0 0%,#fff 50%,#f2e2a8 100%)}
+.theme-dot[data-theme-btn="2"]{background:linear-gradient(135deg,#0e1526 0%,#a8233a 60%,#f1ecdf 100%)}
+.theme-dot[data-theme-btn="3"]{background:linear-gradient(135deg,#f3e9dd 0%,#4a3025 55%,#f2c6ce 100%)}
+.theme-dot[data-theme-btn="4"]{background:linear-gradient(135deg,#6e7f5c 0%,#e3e8d3 50%,#d98e52 100%)}
+
+/* ===== LAYOUT + SIDEBAR ===== */
+.layout{display:flex;flex-direction:column;position:relative;align-items:stretch}
+.nav-toggle{
+  position:fixed;top:1rem;right:1rem;z-index:100;width:3.2rem;height:3.2rem;
+  border-radius:50%;background:var(--surface);border:1px solid var(--border);
+  box-shadow:var(--sh-soft);display:grid;place-items:center;
+  transition:background var(--t),transform var(--t);
+}
+.nav-toggle:hover{transform:scale(1.06) rotate(8deg)}
+.nav-toggle span{display:block;width:1.4rem;height:2px;background:var(--text);border-radius:2px;position:relative;transition:transform var(--t),background var(--t)}
+.nav-toggle span::before,.nav-toggle span::after{content:"";position:absolute;left:0;width:100%;height:2px;background:var(--text);border-radius:2px;transition:transform var(--t)}
+.nav-toggle span::before{top:-7px}
+.nav-toggle span::after{top:7px}
+.nav-toggle[aria-expanded="true"] span{background:transparent}
+.nav-toggle[aria-expanded="true"] span::before{transform:translateY(7px) rotate(45deg)}
+.nav-toggle[aria-expanded="true"] span::after{transform:translateY(-7px) rotate(-45deg)}
+
+.sidebar{
+  position:fixed;inset:0 auto 0 0;width:min(280px,82vw);
+  background:var(--surface);border-right:1px solid var(--border);
+  padding:4.5rem 1.5rem 2rem;z-index:90;
+  transform:translateX(-105%);transition:transform var(--t),box-shadow var(--t);
+  overflow-y:auto;display:flex;flex-direction:column;gap:2rem;
+  border-radius:0 var(--r-xl) var(--r-xl) 0;
+}
+.sidebar.is-open{transform:translateX(0);box-shadow:20px 0 60px -20px var(--shadow)}
+.sidebar-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity var(--t);z-index:80}
+.sidebar-backdrop.is-active{opacity:1;pointer-events:auto}
+.sidebar-brand{font-family:var(--font-display);font-weight:900;font-size:1.4rem;display:flex;align-items:center;gap:.5rem;color:var(--text)}
+.sidebar-nav ul{display:flex;flex-direction:column;gap:.4rem}
+.nav-link{
+  display:flex;align-items:center;gap:.8rem;width:100%;
+  padding:.9rem 1.1rem;border-radius:var(--r-md);
+  font-family:var(--font-display);font-weight:500;font-size:.95rem;text-align:left;
+  color:var(--text-soft);
+  transition:background var(--t),color var(--t),transform var(--t),padding var(--t);
+  border:1px solid transparent;position:relative;
+}
+.nav-link::before{content:"";width:.5rem;height:.5rem;border-radius:50%;background:var(--primary-deep);opacity:0;transform:scale(0);transition:opacity var(--t),transform var(--t);flex-shrink:0}
+.nav-link:hover{background:var(--surface2);color:var(--text);transform:translateX(4px)}
+.nav-link[aria-current="page"]{background:var(--primary);color:var(--on-primary);padding-left:1.5rem;box-shadow:var(--sh-soft)}
+.nav-link[aria-current="page"]::before{opacity:1;transform:scale(1)}
+.sidebar-footer{margin-top:auto;font-size:.75rem;color:var(--text-soft);line-height:1.5}
+.sidebar-footer a{text-decoration:underline;text-underline-offset:3px}
+
+.content{flex:1;width:100%;max-width:1180px;margin-inline:auto;padding:clamp(1.5rem,4vw,3rem) clamp(1rem,3vw,2.5rem)}
+.page-section{padding-block:clamp(2rem,6vw,4rem);scroll-margin-top:1rem;position:relative}
+.page-section+.page-section{border-top:1px dashed var(--border)}
+
+.section-title{font-family:var(--font-display);font-weight:800;font-size:clamp(1.8rem,1.4rem + 2.2vw,3rem);line-height:1.05;margin-bottom:.4rem;letter-spacing:-.02em}
+.section-subtitle{color:var(--text-soft);font-size:clamp(.9rem,.85rem + .3vw,1.05rem);margin-bottom:clamp(1.5rem,4vw,2.4rem);max-width:55ch}
+.section-head{margin-bottom:clamp(1.2rem,3vw,2rem)}
+
+.catalog-tabs{
+  display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:clamp(1.4rem,4vw,2.2rem);
+  padding:.4rem;background:var(--surface2);border-radius:var(--r-xl);
+  border:1px solid var(--border);width:fit-content;max-width:100%;
+}
+.tab-btn{
+  padding:clamp(.5rem,1.5vw,.8rem) clamp(.9rem,2.5vw,1.5rem);
+  border-radius:var(--r-xl);font-family:var(--font-display);font-weight:500;
+  font-size:clamp(.8rem,.75rem + .2vw,.95rem);color:var(--text-soft);
+  transition:background var(--t),color var(--t),box-shadow var(--t),transform var(--t);white-space:nowrap;
+}
+.tab-btn:hover{color:var(--text);background:var(--surface);transform:translateY(-2px)}
+.tab-btn[aria-selected="true"]{background:var(--primary);color:var(--on-primary);box-shadow:var(--sh-soft)}
+
+.catalog-panel{display:none}
+.catalog-panel.is-active{display:grid;grid-template-columns:1fr;gap:clamp(1rem,2.5vw,1.6rem);animation:fadeIn .45s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.product-card{
+  background:var(--surface);border-radius:var(--r-lg);overflow:hidden;
+  border:1px solid var(--border);display:flex;flex-direction:column;
+  transition:transform var(--t),box-shadow var(--t),border-color var(--t);position:relative;
+}
+.product-card::before{
+  content:"";position:absolute;top:-30%;right:-30%;width:60%;height:60%;
+  border-radius:50%;background:var(--grad-a);opacity:0;filter:blur(30px);
+  transition:opacity var(--t);z-index:0;pointer-events:none;
+}
+.product-card:hover::before{opacity:.5}
+.product-card:hover{transform:translateY(-6px) rotate(-.6deg);box-shadow:var(--sh-lift);border-color:var(--primary-deep)}
+.product-media{aspect-ratio:4/3;position:relative;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--border)}
+.product-media svg{width:100%;height:100%;transition:transform .6s cubic-bezier(.22,1,.36,1)}
+.product-card:hover .product-media svg{transform:scale(1.08) rotate(1.5deg)}
+.product-badge{
+  position:absolute;top:.8rem;left:.8rem;font-family:var(--font-display);
+  font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:.3rem .7rem;border-radius:var(--r-xl);
+  background:color-mix(in srgb,var(--accent) 85%,transparent);
+  color:var(--on-primary);backdrop-filter:blur(6px);
+  border:1px solid color-mix(in srgb,var(--text) 15%,transparent);
+}
+.product-body{padding:clamp(.9rem,2.5vw,1.3rem);display:flex;flex-direction:column;gap:.5rem;flex:1;position:relative;z-index:1}
+.product-name{font-family:var(--font-display);font-weight:600;font-size:clamp(.95rem,.9rem + .35vw,1.15rem);line-height:1.25}
+.product-desc{font-size:.82rem;color:var(--text-soft);flex:1}
+.product-footer{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-top:.4rem;flex-wrap:wrap}
+.product-price{font-family:var(--font-display);font-weight:700;font-size:clamp(1rem,.95rem + .4vw,1.25rem);white-space:nowrap}
+.btn-small{
+  padding:.5rem 1rem;font-size:.78rem;border-radius:var(--r-xl);
+  background:var(--primary);color:var(--on-primary);
+  font-family:var(--font-display);font-weight:600;
+  transition:transform var(--t),box-shadow var(--t),background var(--t);
+  box-shadow:0 6px 16px -8px var(--shadow);
+}
+.btn-small:hover{transform:translateY(-2px) scale(1.05);box-shadow:var(--sh-soft)}
+
+.reviews-grid{display:grid;grid-template-columns:1fr;gap:clamp(1rem,2.5vw,1.5rem)}
+.review-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:clamp(1.1rem,3vw,1.7rem);display:flex;flex-direction:column;gap:.7rem;
+  transition:transform var(--t),box-shadow var(--t);position:relative;overflow:hidden;
+}
+.review-card::before{content:"“";position:absolute;top:-.8rem;right:1rem;font-family:Georgia,serif;font-size:6rem;line-height:1;color:var(--primary);opacity:.35;pointer-events:none}
+.review-card:hover{transform:translateY(-4px) rotate(.4deg);box-shadow:var(--sh-soft)}
+.review-head{display:flex;align-items:center;gap:.8rem}
+.review-avatar{
+  width:2.6rem;height:2.6rem;border-radius:50% 40% 60% 45%;
+  background:var(--grad-a);display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:700;font-size:1rem;
+  color:var(--on-primary);flex-shrink:0;animation:morph 10s ease-in-out infinite;
+}
+.review-author{font-family:var(--font-display);font-weight:600;font-size:.95rem}
+.review-stars{color:var(--accent-deep);letter-spacing:.15em;font-size:.9rem}
+.review-text{font-size:.9rem;color:var(--text-soft);font-style:italic}
+
+.about-grid{display:grid;grid-template-columns:1fr;gap:clamp(1.5rem,4vw,2.5rem);align-items:start}
+.about-logo{
+  width:clamp(120px,30vw,190px);aspect-ratio:1;
+  border-radius:50% 40% 60% 45%;background:var(--grad-a);
+  display:grid;place-items:center;font-family:var(--font-display);font-weight:900;
+  font-size:clamp(1.2rem,3vw,2rem);color:var(--on-primary);
+  box-shadow:var(--sh-lift);margin-inline:auto;animation:morph 12s ease-in-out infinite;
+  text-align:center;padding:.5rem;line-height:1.1;
+}
+.about-text h3{font-family:var(--font-display);font-size:clamp(1.1rem,1rem + .6vw,1.4rem);margin-bottom:.6rem;margin-top:1.2rem}
+.about-text h3:first-child{margin-top:0}
+.about-text p{color:var(--text-soft);margin-bottom:1rem;font-size:.92rem}
+.about-philosophy{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:clamp(1rem,3vw,1.6rem);margin-top:1.2rem;box-shadow:var(--sh-soft);position:relative;overflow:hidden}
+.about-philosophy::before{content:"";position:absolute;inset:0;background:var(--grad-a);opacity:.06;pointer-events:none}
+.about-philosophy blockquote{font-family:var(--font-display);font-weight:500;font-size:clamp(1rem,.95rem + .4vw,1.2rem);line-height:1.4;color:var(--text);font-style:italic;position:relative}
+.contacts-list{display:flex;flex-direction:column;gap:.6rem;margin-top:1.4rem}
+.contact-row{display:flex;align-items:center;gap:.7rem;font-size:.88rem;color:var(--text-soft)}
+.contact-row .icon{width:1.8rem;height:1.8rem;border-radius:50%;background:var(--primary);display:grid;place-items:center;color:var(--on-primary);font-size:.8rem;flex-shrink:0}
+
+.site-footer{padding-block:clamp(1.2rem,3vw,2rem);border-top:1px solid var(--border);text-align:center;font-size:.78rem;color:var(--text-soft);margin-top:clamp(1rem,3vw,2rem)}
+.site-footer p+p{margin-top:.3rem}
+
+@media(min-width:480px){
+  .catalog-panel.is-active{grid-template-columns:repeat(2,1fr)}
+  .reviews-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(min-width:768px){
+  .nav-toggle{display:none}
+  .layout{flex-direction:row;align-items:flex-start}
+  .sidebar{
+    position:sticky;top:1rem;transform:none;width:240px;height:fit-content;
+    max-height:calc(100vh - 2rem);border-radius:var(--r-lg);
+    border:1px solid var(--border);box-shadow:var(--sh-soft);
+    margin:1rem 0 1rem 1rem;flex-shrink:0;padding-top:2rem;z-index:10;
+    align-self:flex-start;
+  }
+  .sidebar-backdrop{display:none}
+  .catalog-panel.is-active{grid-template-columns:repeat(3,1fr)}
+  .reviews-grid{grid-template-columns:repeat(3,1fr)}
+  .about-grid{grid-template-columns:auto 1fr}
+  .about-logo{margin-inline:0}
+}
+@media(min-width:1100px){
+  .catalog-panel.is-active{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:360px){
+  .theme-switcher{gap:.4rem;padding:.5rem}
+  .theme-dot{width:2.2rem;height:2.2rem}
+  .catalog-tabs{width:100%;justify-content:center}
+  .tab-btn{white-space:normal;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-patterns" aria-hidden="true">
+  <svg class="p1" viewBox="0 0 200 200"><path d="M100 10 Q140 40 130 90 T180 150 Q140 180 100 160 T20 170 Q10 120 40 80 T20 30 Q60 0 100 10Z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="100" cy="100" r="40" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+  <svg class="p2" viewBox="0 0 200 200"><path d="M20 100 Q60 20 100 100 T180 100 Q140 180 100 100 T20 100Z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="100" cy="100" r="55" fill="none" stroke="currentColor" stroke-width=".8" stroke-dasharray="4 6"/></svg>
+  <svg class="p3" viewBox="0 0 200 200"><polygon points="100,20 180,100 100,180 20,100" fill="none" stroke="currentColor" stroke-width="1.5"/><polygon points="100,50 150,100 100,150 50,100" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+  <svg class="p4" viewBox="0 0 200 200"><path d="M100 20 C140 40 180 80 160 140 C140 180 60 180 40 140 C20 80 60 40 100 20Z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M100 50 C125 65 145 90 132 125 C118 150 82 150 68 125 C55 90 75 65 100 50Z" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+</div>
+<div class="bg-noise" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-top">
+      <a href="#home" class="brand-mark" aria-label="MikuMi — на главную"><span class="dot" aria-hidden="true"></span> MikuMi</a>
+      <a href="#catalog" class="btn btn-ghost" style="font-size:.8rem;padding:.5rem 1.2rem;">в каталог</a>
+    </div>
+    <div class="hero">
+      <h1 class="hero-title">MikuMi</h1>
+      <p class="hero-slogan">Одежда и украшения для тех, кто не боится быть странным</p>
+      <div class="hero-cta">
+        <a href="#catalog" class="btn">Смотреть коллекцию
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="theme-switcher" role="group" aria-label="Выбор цветовой темы оформления">
+      <span class="theme-label" aria-hidden="true">выбери настроение</span>
+      <button class="theme-dot" data-theme-btn="1" aria-label="Тема 1: светло-розовый, белый, тускло-жёлтый" aria-pressed="true" title="Светло-розовый · белый · тускло-жёлтый"></button>
+      <button class="theme-dot" data-theme-btn="2" aria-label="Тема 2: тёмно-синий, тёмно-красный, белый" aria-pressed="false" title="Тёмно-синий · тёмно-красный · белый"></button>
+      <button class="theme-dot" data-theme-btn="3" aria-label="Тема 3: бежевый, тёмно-коричневый, светло-розовый" aria-pressed="false" title="Бежевый · тёмно-коричневый · светло-розовый"></button>
+      <button class="theme-dot" data-theme-btn="4" aria-label="Тема 4: тускло-зелёный, светло-коричневый, тускло-оранжевый" aria-pressed="false" title="Тускло-зелёный · светло-коричневый · тускло-оранжевый"></button>
+    </div>
+  </div>
+</header>
+
+<button class="nav-toggle" aria-label="Открыть меню навигации" aria-expanded="false" aria-controls="sidebar"><span aria-hidden="true"></span></button>
+<div class="sidebar-backdrop" aria-hidden="true"></div>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Боковая навигация">
+    <div class="sidebar-brand"><span class="dot" aria-hidden="true"></span> MikuMi</div>
+    <nav class="sidebar-nav" aria-label="Основная навигация">
+      <ul>
+        <li><a class="nav-link" href="#home" aria-current="page">Главная</a></li>
+        <li><a class="nav-link" href="#catalog">Каталог</a></li>
+        <li><a class="nav-link" href="#reviews">Отзывы</a></li>
+        <li><a class="nav-link" href="#about">О бренде</a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer">
+      <p>Санкт-Петербург, ул. Странная, 7</p>
+      <p><a href="mailto:hello@mikumi.ru">hello@mikumi.ru</a></p>
+      <p>© 2026 MikuMi</p>
+    </div>
+  </aside>
+
+  <main class="content" id="main-content">
+
+    <section class="page-section" id="home" aria-labelledby="home-title">
+      <div class="section-head">
+        <h2 class="section-title" id="home-title">Странно. Красиво. Твоё.</h2>
+        <p class="section-subtitle">MikuMi — независимый бренд дизайнерской одежды и украшений. Мы делаем вещи, которые не вписываются в рамки — и именно поэтому их хочется носить.</p>
+      </div>
+      <div class="catalog-panel is-active" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(1rem,2.5vw,1.6rem)">
+        <article class="product-card">
+          <div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="h1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f7c8d0"/><stop offset="100%" stop-color="#f2e2a8"/></linearGradient></defs><rect width="400" height="300" fill="url(#h1)"/><path d="M180 60 Q200 30 220 60 L240 120 Q200 150 160 120 Z" fill="rgba(255,255,255,.5)"/><path d="M160 120 Q130 200 110 260 L290 260 Q270 200 240 120 Q200 155 160 120Z" fill="rgba(255,255,255,.35)"/></svg></div>
+          <div class="product-body"><h3 class="product-name">Платье «Сонный мак»</h3><p class="product-desc">Лёгкий шёлк, асимметричный крой, ручная вышивка.</p><div class="product-footer"><span class="product-price">12 400 ₽</span><a href="#catalog" class="btn-small">Подробнее</a></div></div>
+        </article>
+        <article class="product-card">
+          <div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="h2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f2e2a8"/><stop offset="100%" stop-color="#f7c8d0"/></linearGradient></defs><rect width="400" height="300" fill="url(#h2)"/><circle cx="200" cy="140" r="60" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="6"/><circle cx="200" cy="140" r="30" fill="rgba(255,255,255,.45)"/></svg></div>
+          <div class="product-body"><h3 class="product-name">Серьги «Тихий космос»</h3><p class="product-desc">Латунь, эмаль, звёздная пыль. Лимитированная серия.</p><div class="product-footer"><span class="product-price">4 800 ₽</span><a href="#catalog" class="btn-small">Подробнее</a></div></div>
+        </article>
+        <article class="product-card">
+          <div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="h3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fceee6"/><stop offset="100%" stop-color="#f7c8d0"/></linearGradient></defs><rect width="400" height="300" fill="url(#h3)"/><rect x="130" y="100" width="140" height="100" rx="30" fill="rgba(255,255,255,.5)"/><path d="M130 140 Q100 120 90 160 Q80 200 120 190" stroke="rgba(255,255,255,.7)" stroke-width="8" fill="none"/></svg></div>
+          <div class="product-body"><h3 class="product-name">Сумка «Облако»</h3><p class="product-desc">Мягкая кожа растительного дубления, необычная форма.</p><div class="product-footer"><span class="product-price">9 200 ₽</span><a href="#catalog" class="btn-small">Подробнее</a></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="page-section" id="catalog" aria-labelledby="catalog-title">
+      <div class="section-head">
+        <h2 class="section-title" id="catalog-title">Каталог</h2>
+        <p class="section-subtitle">Четыре категории — одежда, аксессуары, украшения и вещи на заказ. Каждая вещь создаётся вручную или малым тиражом.</p>
+      </div>
+      <div class="catalog-tabs" role="tablist" aria-label="Категории каталога">
+        <button class="tab-btn" role="tab" aria-selected="true" aria-controls="panel-clothes" id="tab-clothes" data-tab="clothes">Одежда</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-accessories" id="tab-accessories" data-tab="accessories">Аксессуары</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-jewelry" id="tab-jewelry" data-tab="jewelry">Украшения</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-custom" id="tab-custom" data-tab="custom">На заказ</button>
+      </div>
+
+      <div class="catalog-panel is-active" id="panel-clothes" role="tabpanel" aria-labelledby="tab-clothes">
+        <article class="product-card"><div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="c1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f7c8d0"/><stop offset="100%" stop-color="#f2e2a8"/></linearGradient></defs><rect width="400" height="300" fill="url(#c1)"/><path d="M160 80 L200 60 L240 80 L260 130 L230 140 L230 260 L170 260 L170 140 L140 130 Z" fill="rgba(255,255,255,.45)"/></svg></div><div class="product-body"><h3 class="product-name">Платье «Сонный мак»</h3><p class="product-desc">Лёгкий шёлк, асимметричный крой, ручная вышивка.</p><div class="product-footer"><span class="product-price">12 400 ₽</span><a href="#catalog" class="btn-small">Подробнее</a></div></div></article>
+        <article class="product-card"><div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="c2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fceee6"/><stop offset="100%" stop-color="#f7c8d0"/></linearGradient></defs><rect width="400" height="300" fill="url(#c2)"/><path d="M150 100 L180 70 L220 70 L250 100 L240 140 L210 140 L210 240 L190 240 L190 140 L160 140 Z" fill="rgba(255,255,255,.5)"/></svg></div><div class="product-body"><h3 class="product-name">Рубашка «Странный лес»</h3><p class="product-desc">Хлопок, свободный крой, необычные пуговицы.</p><div class="product-footer"><span class="product-price">7 900 ₽</span><a href="#catalog" class="btn-small">Подробнее</a></div></div></article>
+        <article class="product-card"><div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="c3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f2e2a8"/><stop offset="100%" stop-color="#fceee6"/></linearGradient></defs><rect width="400" height="300" fill="url(#c3)"/><path d="M140 150 Q200 80 260 150 L260 260 L140 260 Z" fill="rgba(255,255,255,.5)"/></svg></div><div class="product-body"><h3 class="product-name">Юбка «Танцующий туман»</h3><p class="product-desc">Лёгкая, струящаяся, с асимметричным подолом.</p><div class="product-footer"><span class="product-price">8 600 ₽</span><a href="#catalog" class="btn-small">Подробнее</a></div></div></article>
+        <article class="product-card"><div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="c4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f7c8d0"/><stop offset="100%" stop-color="#fff"/></linearGradient></defs><rect width="400" height="300" fill="url(#c4)"/><path d="M160 90 L200 60 L240 90 L260 150 L230 160 L230 250 L170 250 L170 160 L140 150 Z" fill="rgba(255,255,255,.4)"/></svg></div><div class="product-body"><h3 class="product-name">Пальто «Тёплый шум»</h3><p class="product-desc">Шерсть, объёмный силуэт, большие карманы.</p><div class="product-footer"><span class="product-price">18 200 ₽</span><a href="#catalog" class="btn-small">Подробнее</a></div></div></article>
+      </div>
+
+      <div class="catalog-panel" id="panel-accessories" role="tabpanel" aria-labelledby="tab-accessories">
+        <article class="product-card"><div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="a1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f2e2a8"/><stop offset="100%" stop-color="#f7c8d0"/></linearGradient></defs><rect width="400" height="300" fill="url(#a1)"/><rect x="130" y="100" width="140" height="100" rx="30" fill="rgba(255,255,255,.5)"/></svg></div><div class="product-body"><h3 class="product-name">Сумка «Облако»</h3><p class="product-desc">Мягкая кожа растительного дубления, необычная форма.</p><div class="product-footer"><span class="product-price">9 200 ₽</span><a href="#catalog" class="btn-small">Подробнее</a></div></div></article>
+        <article class="product-card"><div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="a2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fceee6"/><stop offset="100%" stop-color="#f2e2a8"/></linearGradient></defs><rect width="400" height="300" fill="url(#a2)"/><path d="M140 120 L260 120 L250 200 Q200 230 150 200 Z" fill="rgba(255,255,255,.45)"/></svg></div><div class="product-body"><h3 class="product-name">Шарф «Шёпот»</h3><p class="product-desc">Тонкая шерсть, ручная вязка, нежные оттенки.</p><div class="product-footer"><span class="product-price">3 400 ₽</span><a href="#catalog" class="btn-small">Подробнее</a></div></div></article>
+        <article class="product-card"><div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="a3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#f7c8d0"/></linearGradient></defs><rect width="400" height="300" fill="url(#a3)"/><circle cx="200" cy="150" r="50" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="8"/></svg></div><div class="product-body"><h3 class="product-name">Очки «Стеклянный сон»</h3><p class="product-desc">Ацетат, необычные линзы с лёгким оттенком.</p><div class="product-footer"><span class="product-price">5 600 ₽</span><a href="#catalog" class="btn-small">Подробнее</a></div></div></article>
+      </div>
+
+      <div class="catalog-panel" id="panel-jewelry" role="tabpanel" aria-labelledby="tab-jewelry">
+        <article class="product-card"><div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="j1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f2e2a8"/><stop offset="100%" stop-color="#f7c8d0"/></linearGradient></defs><rect width="400" height="300" fill="url(#j1)"/><circle cx="170" cy="150" r="30" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="6"/><circle cx="230" cy="150" r="30" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="6"/></svg></div><div class="product-body"><h3 class="product-name">Серьги «Тихий космос»</h3><p class="product-desc">Латунь, эмаль, звёздная пыль. Лимитированная серия.</p><div class="product-footer"><span class="product-price">4 800 ₽</span><a href="#catalog" class="btn-small">Подробнее</a></div></div></article>
+        <article class="product-card"><div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="j2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fceee6"/><stop offset="100%" stop-color="#f2e2a8"/></linearGradient></defs><rect width="400" height="300" fill="url(#j2)"/><path d="M200 80 L220 140 L280 150 L230 190 L245 250 L200 220 L155 250 L170 190 L120 150 L180 140 Z" fill="rgba(255,255,255,.5)"/></svg></div><div class="product-body"><h3 class="product-name">Кольцо «Лунный камень»</h3><p class="product-desc">Серебро 925, натуральный камень с переливом.</p><div class="product-footer"><span class="product-price">6 700 ₽</span><a href="#catalog" class="btn-small">Подробнее</a></div></div></article>
+        <article class="product-card"><div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="j3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f7c8d0"/><stop offset="100%" stop-color="#fff"/></linearGradient></defs><rect width="400" height="300" fill="url(#j3)"/><path d="M120 200 Q200 100 280 200" stroke="rgba(255,255,255,.7)" stroke-width="8" fill="none"/><circle cx="200" cy="180" r="20" fill="rgba(255,255,255,.6)"/></svg></div><div class="product-body"><h3 class="product-name">Колье «Сны о весне»</h3><p class="product-desc">Латунь с патиной, подвеска ручной работы.</p><div class="product-footer"><span class="product-price">8 100 ₽</span><a href="#catalog" class="btn-small">Подробнее</a></div></div></article>
+      </div>
+
+      <div class="catalog-panel" id="panel-custom" role="tabpanel" aria-labelledby="tab-custom">
+        <article class="product-card"><div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="z1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f2e2a8"/><stop offset="100%" stop-color="#fceee6"/></linearGradient></defs><rect width="400" height="300" fill="url(#z1)"/><text x="200" y="175" text-anchor="middle" font-family="Georgia,serif" font-size="72" fill="rgba(255,255,255,.7)">✂</text></svg></div><div class="product-body"><h3 class="product-name">Платье на заказ</h3><p class="product-desc">Индивидуальный пошив по вашим меркам и эскизу.</p><div class="product-footer"><span class="product-price">от 15 000 ₽</span><a href="#catalog" class="btn-small">Заказать</a></div></div></article>
+        <article class="product-card"><div class="product-media" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="z2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f7c8d0"/><stop offset="100%" stop-color="#f2e2a8"/></linearGradient></defs><rect width="400" height="300" fill="url(#z2)"/><text x="200" y="175" text-anchor="middle" font-family="Georgia,serif" font-size="72" fill="rgba(255,255,255,.7)">✦</text></svg></div><div class="product-body"><h3 class="product-name">Украшение на заказ</h3><p class="product-desc">Создадим уникальное украшение под ваш образ.</p><div class="product-footer"><span class="product-price">от 5 000 ₽</span><a href="#catalog" class="btn-small">Заказать</a></div></div></article>
+      </div>
+    </section>
+
+    <section class="page-section" id="reviews" aria-labelledby="reviews-title">
+      <div class="section-head">
+        <h2 class="section-title" id="reviews-title">Отзывы</h2>
+        <p class="section-subtitle">Что говорят те, кто уже носит MikuMi.</p>
+      </div>
+      <div class="reviews-grid">
+        <article class="review-card"><div class="review-head"><span class="review-avatar" aria-hidden="true">А</span><div><span class="review-author">Анна</span><div class="review-stars" aria-label="Оценка 5 из 5">★★★★★</div></div></div><p class="review-text">«Платье «Сонный мак» — это что-то невероятное. Кажется, будто оно живёт своей жизнью. Ношу не снимая!»</p></article>
+        <article class="review-card"><div class="review-head"><span class="review-avatar" aria-hidden="true">М</span><div><span class="review-author">Михаил</span><div class="review-stars" aria-label="Оценка 5 из 5">★★★★★</div></div></div><p class="review-text">«Серьги «Тихий космос» — маленькое произведение искусства. Все спрашивают, где взял. Отвечаю: MikuMi.»</p></article>
+        <article class="review-card"><div class="review-head"><span class="review-avatar" aria-hidden="true">Д</span><div><span class="review-author">Дарья</span><div class="review-stars" aria-label="Оценка 4 из 5">★★★★☆</div></div></div><p class="review-text">«Заказывала пальто по индивидуальным меркам. Сидит идеально, материал приятный. Чуть дольше ждала, но оно того стоило.»</p></article>
+        <article class="review-card"><div class="review-head"><span class="review-avatar" aria-hidden="true">И</span><div><span class="review-author">Ирина</span><div class="review-stars" aria-label="Оценка 5 из 5">★★★★★</div></div></div><p class="review-text">«Сумка «Облако» — самая необычная вещь в моём гардеробе. Мягкая, вместительная, притягивает взгляды.»</p></article>
+        <article class="review-card"><div class="review-head"><span class="review-avatar" aria-hidden="true">П</span><div><span class="review-author">Пётр</span><div class="review-stars" aria-label="Оценка 4 из 5">★★★★☆</div></div></div><p class="review-text">«Очень атмосферный бренд. Рубашка необычная, но носится легко. Буду заказывать ещё.»</p></article>
+      </div>
+    </section>
+
+    <section class="page-section" id="about" aria-labelledby="about-title">
+      <div class="section-head">
+        <h2 class="section-title" id="about-title">О бренде</h2>
+        <p class="section-subtitle">MikuMi родился из любви к странным формам и тихим деталям.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-logo" aria-label="Логотип MikuMi">MikuMi</div>
+        <div class="about-text">
+          <h3>Наша история</h3>
+          <p>MikuMi начался в 2019 году с маленькой мастерской в Санкт-Петербурге. Мы хотели создавать одежду и украшения, которые не похожи на всё остальное — вещи с характером, которые можно носить каждый день и чувствовать себя особенным.</p>
+          <p>Сегодня MikuMi — это команда дизайнеров, ювелиров и портных, которые вручную создают каждую коллекцию. Мы работаем с небольшими партиями тканей и материалов, чтобы каждая вещь оставалась уникальной.</p>
+          <div class="about-philosophy"><blockquote>«Красота — в неидеальности. Мы шьём и создаём украшения для тех, кто ценит странность и индивидуальность».</blockquote></div>
+          <div class="contacts-list">
+            <div class="contact-row"><span class="icon" aria-hidden="true">✉</span> hello@mikumi.ru</div>
+            <div class="contact-row"><span class="icon" aria-hidden="true">✆</span> +7 (812) 000-00-00</div>
+            <div class="contact-row"><span class="icon" aria-hidden="true">◉</span> Санкт-Петербург, ул. Странная, 7</div>
+            <div class="contact-row"><span class="icon" aria-hidden="true">⌚</span> Ежедневно 12:00–20:00</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>© 2026 MikuMi · дизайнерская одежда и украшения</p>
+      <p>Сделано с любовью к странностям</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  const root=document.documentElement;
+  const themeBtns=document.querySelectorAll('[data-theme-btn]');
+  const applyTheme=id=>{
+    if(id==='1') root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme',id);
+    themeBtns.forEach(b=>b.setAttribute('aria-pressed',b.dataset.themeBtn===id?'true':'false'));
+    try{localStorage.setItem('mikumi-theme',id)}catch(e){}
+  };
+  themeBtns.forEach(b=>b.addEventListener('click',()=>applyTheme(b.dataset.themeBtn)));
+  try{const s=localStorage.getItem('mikumi-theme');if(s&&['1','2','3','4'].includes(s))applyTheme(s)}catch(e){}
+
+  const navToggle=document.querySelector('.nav-toggle');
+  const sidebar=document.getElementById('sidebar');
+  const backdrop=document.querySelector('.sidebar-backdrop');
+  const openS=()=>{sidebar.classList.add('is-open');backdrop.classList.add('is-active');navToggle.setAttribute('aria-expanded','true');navToggle.setAttribute('aria-label','Закрыть меню навигации');document.body.style.overflow='hidden';};
+  const closeS=()=>{sidebar.classList.remove('is-open');backdrop.classList.remove('is-active');navToggle.setAttribute('aria-expanded','false');navToggle.setAttribute('aria-label','Открыть меню навигации');document.body.style.overflow='';};
+  navToggle.addEventListener('click',()=>sidebar.classList.contains('is-open')?closeS():openS());
+  backdrop.addEventListener('click',closeS);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&sidebar.classList.contains('is-open')){closeS();navToggle.focus();}});
+  window.addEventListener('resize',()=>{if(window.innerWidth>=768&&sidebar.classList.contains('is-open'))closeS();});
+
+  const navLinks=document.querySelectorAll('.nav-link[data-section], .nav-link[href^="#"]');
+  const sections=document.querySelectorAll('.page-section');
+
+  const setActiveSection=id=>{
+    navLinks.forEach(l=>{
+      const target=(l.dataset.section||l.getAttribute('href').slice(1));
+      if(target===id) l.setAttribute('aria-current','page');
+      else l.removeAttribute('aria-current');
+    });
+  };
+
+  document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+    anchor.addEventListener('click',function(e){
+      const id=this.getAttribute('href').slice(1);
+      const target=document.getElementById(id);
+      if(!target) return;
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth',block:'start'});
+      setActiveSection(id);
+      if(window.innerWidth<768) closeS();
+    });
+  });
+
+  const navLinksWithSection=document.querySelectorAll('.nav-link[data-section]');
+  navLinksWithSection.forEach(l=>{
+    l.addEventListener('click',()=>{
+      const sec=document.getElementById(l.dataset.section);
+      if(sec){sec.scrollIntoView({behavior:'smooth',block:'start'});setActiveSection(l.dataset.section);}
+      if(window.innerWidth<768) closeS();
+    });
+  });
+
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{if(en.isIntersecting) setActiveSection(en.target.id);});
+  },{rootMargin:'-40% 0px -50% 0px',threshold:0});
+  sections.forEach(s=>io.observe(s));
+
+  const tabButtons=document.querySelectorAll('[data-tab]');
+  const panels=document.querySelectorAll('.catalog-panel');
+  tabButtons.forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      const targetId='panel-'+tab.dataset.tab;
+      tabButtons.forEach(t=>t.setAttribute('aria-selected',t===tab?'true':'false'));
+      panels.forEach(p=>p.classList.toggle('is-active',p.id===targetId));
+    });
+  });
+  const tabList=document.querySelector('[role="tablist"]');
+  if(tabList){
+    tabList.addEventListener('keydown',e=>{
+      const tabs=Array.from(tabButtons);
+      const cur=tabs.indexOf(document.activeElement);
+      if(cur===-1) return;
+      let ni=cur;
+      if(e.key==='ArrowRight') ni=(cur+1)%tabs.length;
+      else if(e.key==='ArrowLeft') ni=(cur-1+tabs.length)%tabs.length;
+      else if(e.key==='Home') ni=0;
+      else if(e.key==='End') ni=tabs.length-1;
+      else return;
+      e.preventDefault();tabs[ni].focus();tabs[ni].click();
+    });
+  }
+
+  const patterns=document.querySelectorAll('.bg-patterns svg');
+  const rotations=[0,45,90,135,180,225,270,315];
+  let lastY=window.scrollY, ticking=false;
+  window.addEventListener('scroll',()=>{
+    if(!ticking){
+      window.requestAnimationFrame(()=>{
+        const dy=window.scrollY-lastY;
+        patterns.forEach((p,i)=>{
+          const base=parseFloat(p.dataset.rot||'0');
+          const newRot=base+dy*0.08*(i%2===0?1:-1);
+          p.dataset.rot=newRot;
+          p.style.transform=`rotate(${newRot}deg) translateY(${Math.sin(window.scrollY*0.003+i)*20}px)`;
+          p.style.opacity=String(.35+Math.abs(Math.sin(window.scrollY*0.002+i))*0.35);
+        });
+        lastY=window.scrollY;ticking=false;
+      });
+      ticking=true;
+    }
+  },{passive:true});
+})();
+</script>
+</body>
+</html>
