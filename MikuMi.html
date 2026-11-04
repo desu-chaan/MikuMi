@@ -652,6 +652,15 @@ body::after {
   overflow: visible;
 }
 
+/* Числовое «топливо» анимации рамки: регистрируем через @property,
+   чтобы значение --wave-morph (0..1) ПЛАВНО переходило при смене
+   состояния наведения. Одноразовый переход, без infinite-циклов */
+@property --wave-morph {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
 /* Волнистая рамка-псевдоэлемент: тонкая линия-волна по всему периметру
    (SVG-маска поверх цвета темы). Выходит за пределы карточки, а гребни
    волны заходят внутрь — на изображение карточки */
@@ -668,13 +677,20 @@ body::after {
   mask-size: 100% 100%;
   mask-repeat: no-repeat;
   mask-position: center;
-  opacity: .8;
   pointer-events: none;
   z-index: 1;
-  /* Одноразовый переход состояния: при наведении рамка плавно
-     зеркалится (scaleX(-1)), при уходе курсора — плавно возвращается.
-     Никакого scale габаритов и зацикленной анимации */
-  transition: opacity .4s ease, transform .45s ease;
+  /* Плавное «перетекание» формы рамки (без зеркального рывка):
+     --wave-morph идёт 0 -> 1 при наведении и 1 -> 0 при уходе курсора.
+     Прямая интерполяция transform: scaleX(1) -> scaleX(-1) проходит
+     через нулевую ширину (ощущение рывка), поэтому в середине перехода
+     рамка одновременно «растворяется» по opacity и «проявляется»
+     уже зеркальной. d — симметричный «колокол» (1 на концах, 0 в середине) */
+  --wave-morph: 0;
+  --wave-dip: max(2 * var(--wave-morph) - 1, 1 - 2 * var(--wave-morph));
+  opacity: calc(.8 + .2 * var(--wave-morph) - .68 * (1 - var(--wave-dip)));
+  transform: scaleX(calc(1 - 2 * var(--wave-morph)));
+  /* Мягкий старт и финиш, без scale габаритов и зацикленной анимации */
+  transition: --wave-morph .75s cubic-bezier(.6, .05, .25, .95);
 }
 
 .product-card:hover,
@@ -684,12 +700,12 @@ body::after {
 }
 
 /* При наведении рамка зеркально отражается по горизонтали (та же волна,
-   но отражённая форма). Размер и положение рамки не меняются:
-   transform scaleX(-1) лишь отражает контур вокруг его центра */
+   но отражённая форма): --wave-morph плавно доходит до 1, и оба
+   производных свойства (форма и прозрачность) меняются синхронно.
+   Размер и положение рамки не меняются — только форма контура */
 .product-card:hover::before,
 .product-card:focus-within::before {
-  opacity: 1;
-  transform: scaleX(-1);
+  --wave-morph: 1;
 }
 
 @keyframes wave-breathe {
@@ -730,7 +746,9 @@ body::after {
   overflow: hidden;
   padding: 0;
   margin-bottom: 8px;
-  background: var(--surface-2);
+  /* Фон контейнера = фон карточки: пустые поля вокруг картинки
+     (при object-fit: contain) не выделяются контрастными полосами */
+  background: var(--surface);
   position: relative;
 }
 
@@ -741,12 +759,13 @@ body::after {
   object-fit: cover;
 }
 
-/* Фото товара аккуратно заполняет контейнер без искажений */
+/* Фото товара всегда видно ЦЕЛИКОМ: contain не обрезает края
+   и не искажает пропорции, а пустые поля сливаются с фоном карточки */
 .product-card__img img {
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .product-card__name {
@@ -835,7 +854,7 @@ body::after {
   .product-card__img img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 }
 
