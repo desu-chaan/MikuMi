@@ -74,8 +74,8 @@ body.theme-2 {
   --pattern-footer: repeating-linear-gradient(-45deg, rgba(91,141,239,.05) 0 1px, transparent 1px 22px);
   --shadow: 0 4px 24px rgba(0,0,0,.4);
   --shadow-hover: 0 8px 32px rgba(0,0,0,.6);
-  --card-corner-symbol: "⚡";
-  --decor-symbol: "⚡";
+  --card-corner-symbol: "✧";
+  --decor-symbol: "❖";
 }
 
 /* ---------- ТЕМА 3: средняя (зелёный/коричневый) ---------- */
@@ -102,8 +102,8 @@ body.theme-3 {
   --pattern-footer: repeating-linear-gradient(45deg, rgba(154,196,122,.05) 0 1px, transparent 1px 18px);
   --shadow: 0 4px 24px rgba(0,0,0,.3);
   --shadow-hover: 0 8px 32px rgba(0,0,0,.5);
-  --card-corner-symbol: "🌿";
-  --decor-symbol: "🍃";
+  --card-corner-symbol: "❀";
+  --decor-symbol: "✾";
 }
 
 /* ---------- ТЕМА 4: тёмная (фиолетовый/оливковый) ---------- */
@@ -377,8 +377,13 @@ body::after {
   transition: transform .4s ease, color .4s ease;
 }
 
-.hero__title:hover span:nth-child(odd) { transform: translateY(-6px) rotate(-3deg); color: var(--accent); }
-.hero__title:hover span:nth-child(even) { transform: translateY(6px) rotate(3deg); color: var(--accent); }
+/* Постоянное чередование цвета букв (звёздочка .star исключена из подсчёта) */
+.hero__title span:nth-child(odd of span:not(.star)) { color: var(--accent); }
+.hero__title span:nth-child(even of span:not(.star)) { color: var(--text); }
+
+/* Hover — только движение, без смены цвета */
+.hero__title:hover span:nth-child(odd of span:not(.star)) { transform: translateY(-6px) rotate(-3deg); }
+.hero__title:hover span:nth-child(even of span:not(.star)) { transform: translateY(6px) rotate(3deg); }
 
 .hero__title .star {
   font-size: .45em;
@@ -642,17 +647,22 @@ body::after {
   overflow: visible;
 }
 
-/* Кривая рамка-псевдоэлемент */
+/* Волнистая рамка-псевдоэлемент: SVG-маска (волнистое кольцо, fill-rule evenodd) */
 .product-card::before {
   content: "";
   position: absolute;
-  inset: -6px;
-  border: 2px solid var(--decor);
-  border-radius: 28px 18px 26px 16px / 18px 26px 16px 28px;
-  opacity: .5;
-  transition: border-radius .5s ease, opacity .4s ease, border-color .4s ease;
+  inset: -12px;
+  background: var(--decor);
+  opacity: .55;
   pointer-events: none;
   z-index: -1;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 260' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' fill='black' d='M10,10Q32,-10 55,10Q78,30 100,10Q122,-10 145,10Q168,30 190,10Q208,40 190,70Q172,100 190,130Q208,160 190,190Q172,220 190,250Q168,270 145,250Q122,230 100,250Q78,270 55,250Q32,230 10,250Q-10,220 10,190Q30,160 10,130Q-10,100 10,70Q30,40 10,10ZM18,17Q38,-3 58,17Q79,37 100,17Q121,-3 142,17Q162,37 182,17Q202,45 182,73Q162,101 182,130Q202,158 182,187Q162,215 182,243Q162,263 142,243Q121,223 100,243Q79,263 58,243Q38,223 18,243Q-2,215 18,187Q38,158 18,130Q-2,101 18,73Q38,45 18,17Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 260' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' fill='black' d='M10,10Q32,-10 55,10Q78,30 100,10Q122,-10 145,10Q168,30 190,10Q208,40 190,70Q172,100 190,130Q208,160 190,190Q172,220 190,250Q168,270 145,250Q122,230 100,250Q78,270 55,250Q32,230 10,250Q-10,220 10,190Q30,160 10,130Q-10,100 10,70Q30,40 10,10ZM18,17Q38,-3 58,17Q79,37 100,17Q121,-3 142,17Q162,37 182,17Q202,45 182,73Q162,101 182,130Q202,158 182,187Q162,215 182,243Q162,263 142,243Q121,223 100,243Q79,263 58,243Q38,223 18,243Q-2,215 18,187Q38,158 18,130Q-2,101 18,73Q38,45 18,17Z'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  transition: opacity .4s ease, transform .5s ease, background-color .4s ease;
 }
 
 .product-card:hover,
@@ -663,9 +673,9 @@ body::after {
 
 .product-card:hover::before,
 .product-card:focus-within::before {
-  border-radius: 16px 28px 14px 30px / 30px 14px 28px 16px;
   opacity: 1;
-  border-color: var(--accent);
+  background: var(--accent);
+  transform: scale(1.02) rotate(-1deg);
 }
 
 /* Декоративный уголок карточки, зависит от темы */
@@ -680,6 +690,7 @@ body::after {
   z-index: 2;
   transition: transform .4s ease, opacity .4s ease;
   pointer-events: none;
+  font-variant-emoji: text;
 }
 
 .product-card:hover::after {
@@ -777,6 +788,9 @@ body::after {
 
 /* Адаптив карточек: мобильные и планшетные экраны */
 @media (max-width: 767px) {
+  .product-card::before {
+    inset: -8px;
+  }
   .product-card__img {
     max-height: none;
     aspect-ratio: 3 / 4;
@@ -875,10 +889,79 @@ body::after {
   background-image: var(--pattern-about);
 }
 
-.about__content {
-  max-width: 760px;
+/* Сетка «О бренде»: логотип-круг слева, текст справа */
+.about__layout {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
   position: relative;
   z-index: 1;
+}
+
+.about__logo-wrap {
+  position: relative;
+  width: clamp(140px, 22vw, 220px);
+  height: clamp(140px, 22vw, 220px);
+  display: grid;
+  place-items: center;
+  justify-self: start;
+  flex-shrink: 0;
+}
+
+.about__logo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--accent);
+  animation: about-spin 18s linear infinite;
+}
+
+@keyframes about-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Волнистая рамка вокруг круга — SVG-маска с волнистым кольцом */
+.about__logo-ring {
+  position: absolute;
+  inset: -14px;
+  background: var(--decor);
+  opacity: .6;
+  pointer-events: none;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' fill='black' d='M190,100Q207.9,121.1 183.2,134.5Q158.2,138.9 163.6,163.6Q161.2,191.4 134.5,183.2Q113.7,168.7 100,190Q78.5,207.9 65.5,183.2Q61.1,158.2 36.4,163.6Q8.6,161.2 16.8,134.5Q31.3,113.7 10,100Q-7.9,78.9 16.8,65.5Q41.8,61.1 36.4,36.4Q38.8,8.6 65.5,16.8Q86.3,31.3 100,10Q121.5,-7.9 134.5,16.8Q138.9,41.8 163.6,36.4Q191.4,38.8 183.2,65.5Q168.7,86.3 190,100ZM181,100Q199.1,119.4 174.8,131Q150.7,133.9 157.3,157.3Q156.2,183.9 131,174.8Q111.9,159.8 100,181Q80.3,199.1 69,174.8Q66.1,150.7 42.7,157.3Q16.1,156.2 25.2,131Q40.2,111.9 19,100Q0.9,80.6 25.2,69Q49.3,66.1 42.7,42.7Q43.8,16.1 69,25.2Q88.1,40.2 100,19Q119.7,0.9 131,25.2Q133.9,49.3 157.3,42.7Q183.9,43.8 174.8,69Q159.8,88.1 181,100Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' fill='black' d='M190,100Q207.9,121.1 183.2,134.5Q158.2,138.9 163.6,163.6Q161.2,191.4 134.5,183.2Q113.7,168.7 100,190Q78.5,207.9 65.5,183.2Q61.1,158.2 36.4,163.6Q8.6,161.2 16.8,134.5Q31.3,113.7 10,100Q-7.9,78.9 16.8,65.5Q41.8,61.1 36.4,36.4Q38.8,8.6 65.5,16.8Q86.3,31.3 100,10Q121.5,-7.9 134.5,16.8Q138.9,41.8 163.6,36.4Q191.4,38.8 183.2,65.5Q168.7,86.3 190,100ZM181,100Q199.1,119.4 174.8,131Q150.7,133.9 157.3,157.3Q156.2,183.9 131,174.8Q111.9,159.8 100,181Q80.3,199.1 69,174.8Q66.1,150.7 42.7,157.3Q16.1,156.2 25.2,131Q40.2,111.9 19,100Q0.9,80.6 25.2,69Q49.3,66.1 42.7,42.7Q43.8,16.1 69,25.2Q88.1,40.2 100,19Q119.7,0.9 131,25.2Q133.9,49.3 157.3,42.7Q183.9,43.8 174.8,69Q159.8,88.1 181,100Z'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: ring-morph 12s ease-in-out infinite;
+}
+
+@keyframes ring-morph {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50%      { transform: rotate(180deg) scale(1.05); }
+}
+
+.about__content {
+  text-align: left;
+  max-width: 68ch;
+}
+
+.about__brand-name {
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
 .about__text {
@@ -888,15 +971,18 @@ body::after {
   line-height: 1.7;
 }
 
-.about__text:first-of-type::first-letter {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 3.2em;
-  float: left;
-  line-height: .8;
-  margin-right: .08em;
-  margin-top: .05em;
-  color: var(--accent);
+/* Мобильная адаптация «О бренде»: один столбец, логотип сверху */
+@media (max-width: 767px) {
+  .about__layout {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+  .about__logo-wrap {
+    justify-self: center;
+    margin-bottom: 12px;
+  }
+  .about__content { text-align: center; }
 }
 
 .about__decor {
@@ -1021,6 +1107,8 @@ body::after {
   .reveal { opacity: 1; transform: none; }
   .hero__decor { animation: none; }
   .scroll-btn svg { animation: none; }
+  .about__logo,
+  .about__logo-ring { animation: none; }
 }
 
 /* ============================================================
@@ -1369,10 +1457,16 @@ body::after {
 
   <h2 class="section__title reveal" id="about-title" data-symbol="✿">О бренде</h2>
 
-  <div class="about__content reveal">
-    <p class="about__text">MikuMi — это пространство, где одежда становится высказыванием. Мы создаём вещи для тех, кто воспринимает стиль как форму самовыражения, а не как следование трендам. Каждая деталь — от необычного кроя до ручной вышивки — рождается из желания удивить и вдохновить.</p>
-    <p class="about__text">Наша мастерская работает с локальными производствами и использует преимущественно натуральные и переработанные материалы. Мы верим, что красота не должна стоить планете дорого. Поэтому каждая коллекция — это баланс между экспериментальной формой и осознанным подходом к ресурсам.</p>
-    <p class="about__text">MikuMi — не просто магазин. Это сообщество людей, которые не боятся быть собой, смело сочетать несочетаемое и находить красоту в несовершенстве. Добро пожаловать в наш мир!</p>
+  <div class="about__layout">
+    <div class="about__logo-wrap" aria-hidden="true">
+      <div class="about__logo-ring"></div>
+      <div class="about__logo">MikuMi</div>
+    </div>
+    <div class="about__content reveal">
+      <p class="about__text"><span class="about__brand-name">MIKUMI</span> — это пространство, где одежда становится высказыванием. Мы создаём вещи для тех, кто воспринимает стиль как форму самовыражения, а не как следование трендам. Каждая деталь — от необычного кроя до ручной вышивки — рождается из желания удивить и вдохновить.</p>
+      <p class="about__text">Наша мастерская работает с локальными производствами и использует преимущественно натуральные и переработанные материалы. Мы верим, что красота не должна стоить планете дорого. Поэтому каждая коллекция — это баланс между экспериментальной формой и осознанным подходом к ресурсам.</p>
+      <p class="about__text">MikuMi — не просто магазин. Это сообщество людей, которые не боятся быть собой, смело сочетать несочетаемое и находить красоту в несовершенстве. Добро пожаловать в наш мир!</p>
+    </div>
   </div>
 </section>
 </main>
